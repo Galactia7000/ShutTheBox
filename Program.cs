@@ -37,25 +37,12 @@ namespace Shut_the_box
                         Console.WriteLine("Player {0} has no more lives. There is {1} player(s) left.", activePlayer + 1, playersLeft);
                         if (playersLeft == 1) // All but one player eliminated
                         {
-                            bool valid = false;
-                            while (!valid)
-                            {
-                                activePlayer++;
-                                if (activePlayer == players) activePlayer = 0;
-                                if (playerLives[activePlayer] > 0) valid = true;
-                            }
-
+                            CyclePlayer(ref activePlayer);
                             Console.WriteLine("Player {0} is the last player standing and therefore has one the game, congratulations!", activePlayer + 1);
                             gameWon = true;
                             break;
                         }
-                        bool valid2 = false;
-                        while (!valid2)
-                        {
-                            activePlayer++;
-                            if (activePlayer == players) activePlayer = 0;
-                            if (playerLives[activePlayer] > 0) valid2 = true;
-                        }
+                        CyclePlayer(ref activePlayer);
                         Console.ReadKey();
                         Console.Clear();
                         continue;
@@ -75,13 +62,7 @@ namespace Shut_the_box
                     gameWon = true;
                 } else // Setting up for next player
                 {
-                    bool valid = false;
-                    while (!valid)
-                    {
-                        activePlayer++;
-                        if (activePlayer == players) activePlayer = 0;
-                        if (playerLives[activePlayer] > 0) valid = true;
-                    }
+                    CyclePlayer(ref activePlayer);
                 }
                 Console.ReadKey();
                 Console.Clear();
@@ -119,6 +100,17 @@ namespace Shut_the_box
                 if (playerBoards[player, i]) Console.Write("SHUT");
                 else Console.Write("OPEN");
                 Console.WriteLine();
+            }
+        }
+
+        static void CyclePlayer(ref int activePlayer)
+        {
+            bool valid = false;
+            while (!valid)
+            {
+                activePlayer++;
+                if (activePlayer == players) activePlayer = 0;
+                if (playerLives[activePlayer] > 0) valid = true;
             }
         }
 
